@@ -12,7 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
+@ApiModel(description = "A flight object")
 public class Flight {
 	@Id
 	@GeneratedValue
@@ -26,12 +32,17 @@ public class Flight {
 	private Date arrivalDate;
 	@Temporal(TemporalType.TIME)
 	private Date arrivalTime;
+	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airline airline;
+	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airport origin;
+	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airport destination;
+	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airplane airplane;
 
@@ -76,6 +87,7 @@ public class Flight {
 		this.id = id;
 	}
 
+	@ApiModelProperty(value = "Flight Number is required", example = "DL123A8", required = true)
 	public String getFlightnr() {
 		return flightnr;
 	}
@@ -84,6 +96,7 @@ public class Flight {
 		this.flightnr = flightnr;
 	}
 
+	@ApiModelProperty(value = "Departure date is required", example = "30/12/2018", required = true)	
 	public String getDepartureDate() {
 		return df.format(departureDate);
 	}
@@ -96,6 +109,7 @@ public class Flight {
 		}
 	}
 
+	@ApiModelProperty(value = "Departure time is required", example = "11:10PM", required = true)	
 	public String getDepartureTime() {
 		return tf.format(departureTime);
 	}
