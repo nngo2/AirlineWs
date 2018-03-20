@@ -45,14 +45,9 @@ public class AirlineServiceRest {
 	@ApiOperation(value = "Get airline by id", notes = "Get airline by id")
 	@ApiResponses(value = { @ApiResponse(code = 404, message = "Airline not found") })
 	public Response getAirlineById(
-			@ApiParam(value = "Airline id to find", required = true) @PathParam("airlineId") Long airlineId)
-			throws ApiException {
+			@ApiParam(value = "Airline id to find", required = true) @PathParam("airlineId") Long airlineId) {
 		Airline ariline = airlineService.findById(airlineId);
-		if (ariline != null) {
-			return Response.ok().entity(ariline).build();
-		} else {
-			throw new ApiException(404, "Airline not found");
-		}
+		return Response.ok().entity(ariline).build();
 	}
 
 	@Path("/find")

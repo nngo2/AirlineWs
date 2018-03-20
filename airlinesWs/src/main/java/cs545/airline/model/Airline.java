@@ -12,7 +12,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.annotations.ApiModel;
@@ -21,12 +23,13 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(name="Airline_Name",columnNames={"name"}))
 @ApiModel(description = "An airline object")
+@XmlRootElement
 public class Airline {
 	@Id
 	@GeneratedValue
 	private long id;
 	private String name;
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "airline", cascade=CascadeType.ALL)
 	@OrderBy("departureDate, departureTime")
