@@ -50,13 +50,19 @@ public class AirlineServiceRest {
 		return Response.ok().entity(ariline).build();
 	}
 
-	@Path("/find")
+	@Path("/findByName")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get airline by name", notes = "Get airline by name")
-	public Airline getAirlineByName(
+	public Response getAirlineByName(
 			@ApiParam(value = "Airline name to find", required = true) @QueryParam("name") String name) {
-		return airlineService.findByName(name);
+		Airline airline = null;
+		try {
+			airline = airlineService.findByName(name);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return Response.ok().entity(airline).build();
 	}
 
 	@Path("/")
