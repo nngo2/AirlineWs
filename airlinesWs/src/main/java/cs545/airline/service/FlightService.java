@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
+import cs545.airline.dao.AirlineDao;
 import cs545.airline.dao.FlightDao;
 import cs545.airline.model.Airline;
 import cs545.airline.model.Airplane;
@@ -22,6 +23,10 @@ public class FlightService {
 	@Inject
 	private FlightDao flightDao;
 
+
+	@Inject
+	private AirlineDao airlineDao;	
+	
 	// These services should be evaluated to reconsider which methods should be
 	// public
 
@@ -54,10 +59,18 @@ public class FlightService {
 	public List<Flight> findByAirline(Airline airline) {
 		return flightDao.findByAirline(airline.getId());
 	}
+	
+	public List<Flight> findByAirlineId(long airlineId) {
+		return flightDao.findByAirline(airlineId);
+	}	
 
 	public List<Flight> findByOrigin(Airport airport) {
 		return flightDao.findByOrigin(airport.getId());
 	}
+	
+	public List<Flight> findByOriginName(String name) {
+		return flightDao.findByOriginName(name);
+	}	
 
 	public List<Flight> findByDestination(Airport airport) {
 		return flightDao.findByDestination(airport.getId());

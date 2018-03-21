@@ -8,7 +8,6 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import cs545.airline.dao.AirlineDao;
-import cs545.airline.dao.FlightDao;
 import cs545.airline.model.Airline;
 import cs545.airline.model.Airplane;
 import cs545.airline.model.Airport;
@@ -24,9 +23,6 @@ public class AirlineService {
 	// public
 
 	@Inject
-	private FlightDao flightDao;
-	
-	@Inject
 	private AirlineDao airlineDao;
 	
 	@Inject 
@@ -35,14 +31,7 @@ public class AirlineService {
 	@Inject 
 	private AirportService airportService;	
 	
-	@Inject 
-	private FlightService flightService;		
-	
-	public Airline createFlight(Long airlineId, FlightDto flight) {
-		if (airlineId == null || flight == null) {
-			return null;
-		}
-		
+	public void createFlight(Long airlineId, FlightDto flight) {
 		Airline airline = airlineDao.findOne(airlineId);		
 		Airplane airplane = airplaneService.findById(flight.getAirplaneId());
 		Airport orgAirport = airportService.findById(flight.getOrgAirportId());
@@ -54,17 +43,10 @@ public class AirlineService {
 					airline, orgAirport, destAirport, airplane);
 			airplane.addFlight(flightEntity);
 			airlineDao.create(airline);
-			airline = airlineDao.findOne(airlineId);
 		}
-		
-		return airline;	
 	}
 	
 	public Airline updateFlight(Long airlineId, FlightDto flight) {
-		if (airlineId == null || flight == null) {
-			return null;
-		}
-		
 		Airline airline = airlineDao.findOne(airlineId);		
 		Airplane airplane = airplaneService.findById(flight.getAirplaneId());
 		Airport orgAirport = airportService.findById(flight.getOrgAirportId());
@@ -99,60 +81,6 @@ public class AirlineService {
 		
 		return airline;
 	}
-	
-	public Airline deleteFlight(Long airlineId, Long flightId) {
-		if (airlineId == null || flightId == null) {
-			return null;
-		}
-		
-		Flight flightEntity = flightService.findById(flightId);
-		if (flightEntity == null) {
-			return null;
-		}
-		
-		Airline airline = null;
-		Airplane airplane = null;
-		Airport orgAirport = null;
-		Airport destAirport = null;
-		
-		airline = airlineDao.findOne(airlineId);	
-		
-		if (flightEntity.getAirplane() != null) {
-			airplane = airplaneService.findById(flightEntity.getAirplane().getId());
-		}
-	
-		if (flightEntity.getOrigin() != null) {
-			orgAirport = airportService.findById(flightEntity.getOrigin().getId());
-		}
-		
-		if (flightEntity.getDestination() != null) {
-			destAirport = airportService.findById(flightEntity.getDestination().getId());			
-		}
-		
-		if (airplane != null) {
-			airplane.removeFlight(flightEntity);	
-			airplaneService.update(airplane);
-		}
-		
-		if (orgAirport != null) {
-			orgAirport.removeDeparture(flightEntity);	
-			airportService.update(orgAirport);
-		}	
-		
-		if (destAirport != null) {
-			destAirport.removeArrival(flightEntity);			
-			airportService.update(destAirport);
-		}		
-		
-		if (airline != null) {
-			airline.removeFlight(flightEntity);
-			airline = airlineDao.update(airline);
-		}
-		
-		flightDao.delete(flightEntity);
-		
-		return airline;
-	}	
 
 	public void create(Airline airline) {
 		airlineDao.create(airline);

@@ -60,6 +60,15 @@ public class FlightDao {
 
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Flight> findByOriginName(String name) {
+		Query query = entityManager.createQuery("select f from Flight f join f.origin o where o.name=:name",
+				Flight.class);
+		query.setParameter("name", name);
+
+		return query.getResultList();
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<Flight> findByDestination(long airportId) {
