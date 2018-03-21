@@ -69,8 +69,8 @@ public class AirplaneServiceRest {
 	
 	@Path("/findByModel")
 	@GET
-	@ApiOperation(value = "Find airplane by mode", notes = "Find airplane by model")
-	public Response findByCode (
+	@ApiOperation(value = "Find airplane by model", notes = "Find airplane by model")
+	public Response findByModel (
 			@ApiParam(value = "Airplane model to find", required = true) @QueryParam("model") String model) {
 		List<Airplane> airplanes = null;
 		try {
