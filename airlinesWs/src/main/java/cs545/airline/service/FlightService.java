@@ -74,25 +74,32 @@ public class FlightService {
 	public List<Flight> findByAirplane(Airplane airplane) {
 		return flightDao.findByAirplane(airplane.getId());
 	}
+	
+	public List<Flight> findByArrival(Date date) {
+		return flightDao.findByArrival(date, date);
+	}
 
-	public List<Flight> findByArrival(Date datetime) {
-		return flightDao.findByArrival(datetime, datetime);
+	public List<Flight> findByArrival(Date date, Date time) {
+		return flightDao.findByArrival(date, time);
 	}
 
 	public List<Flight> findByArrivalBetween(Date datetimeFrom, Date datetimeTo) {
-		return flightDao.findByArrivalBetween(datetimeFrom, datetimeFrom, datetimeTo, datetimeTo);
+		return flightDao.findByArrivalBetween(datetimeFrom, datetimeTo);
 	}
 
-	public List<Flight> findByDeparture(Date datetime) {
-		return flightDao.findByDeparture(datetime, datetime);
+	public List<Flight> findByDeparture(Date date) {
+		return flightDao.findByDeparture(date, date);
+	}	
+	
+	public List<Flight> findByDeparture(Date date, Date time) {
+		return flightDao.findByDeparture(date, time);
 	}
 
 	public List<Flight> findByDepartureBetween(Date datetimeFrom, Date datetimeTo) {
-		return flightDao.findByDepartureBetween(datetimeFrom, datetimeFrom, datetimeTo, datetimeTo);
+		return flightDao.findByDepartureBetween(datetimeFrom, datetimeTo);
 	}
 
 	public List<Flight> findAll() {
 		return flightDao.findAll();
 	}
-
 }

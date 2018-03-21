@@ -106,16 +106,26 @@ public class FlightDao {
 
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Flight> findByDepartureBetween(Date dateFrom, Date dateTo) {
+		Query query = entityManager.createQuery(
+				"select distinct f from Flight f where f.departureDate between :DateFrom and :DateTo",
+				Flight.class);
+		query.setParameter("DateFrom", dateFrom, TemporalType.DATE);
+		query.setParameter("DateTo", dateTo, TemporalType.DATE);
+		return query.getResultList();
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<Flight> findByDepartureBetween(Date dateFrom, Date dateTo, Date timeFrom, Date timeTo) {
 		Query query = entityManager.createQuery(
-				"select distinct f from Flight f where f.arrivalDate between :DateFrom and :DateTo and f.arrivalTime between :TimeFrom and :TimeTo",
+				"select distinct f from Flight f where f.departureDate between :DateFrom and :DateTo and f.departureTime between :TimeFrom and :TimeTo",
 				Flight.class);
 		query.setParameter("DateFrom", dateFrom, TemporalType.DATE);
-		query.setParameter("TimeFrom", dateFrom, TemporalType.TIME);
+		query.setParameter("TimeFrom", timeFrom, TemporalType.TIME);
 		query.setParameter("DateTo", dateTo, TemporalType.DATE);
-		query.setParameter("TimeTo", dateTo, TemporalType.TIME);
+		query.setParameter("TimeTo", timeTo, TemporalType.TIME);
 		return query.getResultList();
 	}
 
@@ -142,6 +152,17 @@ public class FlightDao {
 
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Flight> findByArrivalBetween(Date dateFrom, Date dateTo) {
+		Query query = entityManager.createQuery(
+				"select distinct f from Flight f where f.arrivalDate between :arrivalDateFrom and :arrivalDateTo",
+				Flight.class);
+		query.setParameter("arrivalDateFrom", dateFrom, TemporalType.DATE);
+		query.setParameter("arrivalDateTo", dateTo, TemporalType.DATE);
+
+		return query.getResultList();
+	}	
 
 	public List<Flight> findAll() {
 		return entityManager.createQuery("select f from Flight f", Flight.class).getResultList();

@@ -1,13 +1,14 @@
 package edu.mum.cs545.ws;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,9 +16,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import cs545.airline.model.Airline;
-import cs545.airline.model.Airplane;
-import cs545.airline.model.Airport;
+import org.joda.time.DateTime;
+
 import cs545.airline.model.Flight;
 import cs545.airline.service.FlightService;
 
@@ -30,7 +30,9 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "/flight")
 @Produces({ MediaType.APPLICATION_JSON })
 public class FlightServiceRest {
-
+	private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT,Locale.US);	
+	private static DateFormat tf = DateFormat.getTimeInstance(DateFormat.SHORT,Locale.US);	
+	
 	@Inject
 	private FlightService flightService;
 
@@ -106,46 +108,85 @@ public class FlightServiceRest {
 	// required = true) Airplane airplane) {
 	// return flightService.findByAirplane(airplane);
 	// }
-	//
-	// @Path("/byArrival")
-	// @GET
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "Get all flights by arrival in a specific date", notes
-	// = "Get all flights by arrival in a specific date")
-	// public List<Flight> findByArrival(@ApiParam(value = "Give a date", required =
-	// true) Date datetime) {
-	// return flightService.findByArrival(datetime);
-	// }
-	//
-	// @Path("/byArrivalBetween")
-	// @GET
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "byArrivalBetween", notes = "Get all flights by arrival
-	// betweet two dates")
-	// public List<Flight> findByArrivalBetween(@ApiParam(value = "Input two dates",
-	// required = true) Date datetimeFrom,
-	// Date datetimeTo) {
-	// return flightService.findByArrivalBetween(datetimeFrom, datetimeTo);
-	// }
-	//
-	// @Path("/byDeparture")
-	// @GET
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "byDeparture", notes = "Get all flights by departure in
-	// a specific date")
-	// public List<Flight> findByDeparture(@ApiParam(value = "Give a date ",
-	// required = true) Date datetime) {
-	// return flightService.findByDeparture(datetime);
-	// }
-	//
-	// @Path("/byDepartureBetween")
-	// @GET
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "byDepartureBetween", notes = "Get all flights by
-	// departure between two dates")
-	// public List<Flight> findByDepartureBetween(@ApiParam(value = "input two dates
-	// ", required = true) Date datetimeFrom,
-	// Date datetimeTo) {
-	// return flightService.findByDepartureBetween(datetimeFrom, datetimeTo);
-	// }
+	
+	@Path("/byArrival")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get all flights by arrival in a specific date", notes = "Get all flights by arrival in a specific date")
+	public Response findByArrival(
+			@ApiParam(value = "Give a date ", required = true) @QueryParam("date") String date,
+			@ApiParam(value = "Give a time ", required = true) @QueryParam("time") String time) {
+
+		List<Flight> flights = null;
+
+		try {
+			Date newDate = df.parse(date);
+			Date newTime = tf.parse(time);
+			flights = flightService.findByArrival(newDate, newTime);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return Response.ok().entity(flights).build();
+	}
+	
+	@Path("/byArrivalBetween")
+	@GET
+	@ApiOperation(value = "byArrivalBetween", notes = "Get all flights by arrival betweet two dates")
+	public Response findByArrivalBetween(
+			@ApiParam(value = "From date", required = true) @QueryParam("from") String datetimeFrom,
+			@ApiParam(value = "To date", required = true) @QueryParam("to") String datetimeTo) {
+		
+		List<Flight> flights = null;
+
+		try {
+			Date from = df.parse(datetimeFrom);
+			Date to = df.parse(datetimeTo);
+			flights = flightService.findByArrivalBetween(from, to);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return Response.ok().entity(flights).build();		
+	}
+	
+	@Path("/byDeparture")
+	@GET
+	@ApiOperation(value = "byDeparture", notes = "Get all flights by departure in a specific date")
+	public Response findByDeparture(
+			@ApiParam(value = "Give a date ", required = true) @QueryParam("date") String date,
+			@ApiParam(value = "Give a time ", required = true) @QueryParam("time") String time) {
+		
+		List<Flight> flights = null;
+
+		try {
+			Date newDate = df.parse(date);
+			Date newTime = tf.parse(time);
+			flights = flightService.findByDeparture(newDate, newTime);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return Response.ok().entity(flights).build();
+	}
+
+	@Path("/byDepartureBetween")
+	@GET
+	@ApiOperation(value = "byDepartureBetween", notes = "Get all flights by departure between two dates")
+	public Response findByDepartureBetween(
+			@ApiParam(value = "From date", required = true) @QueryParam("from") String datetimeFrom,
+			@ApiParam(value = "To date", required = true) @QueryParam("to") String datetimeTo) {
+
+		List<Flight> flights = null;
+
+		try {
+			Date from = df.parse(datetimeFrom);
+			Date to = df.parse(datetimeTo);
+			flights = flightService.findByDepartureBetween(from, to);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return Response.ok().entity(flights).build();
+	}
 }
