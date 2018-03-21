@@ -34,9 +34,9 @@ public class CustomTemplateController implements Serializable {
 	}
 
 	static enum MainView {
-		VIEW_FLIGHT("view-flights.xhtml"), 
-		VIEW_AIRLINES("view-airlines.xhtml"),
-		ADD_AIRLINE("add-airline.xhtml");
+		VIEW_FLIGHT("flight/view-flights.xhtml"), 
+		VIEW_AIRLINES("airline/view-airlines.xhtml"),
+		ADD_AIRLINE("airline/add-airline.xhtml");
 		private String name;
 
 		public String getName() {
