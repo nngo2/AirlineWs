@@ -71,10 +71,29 @@ public class AirlineService {
 		Airport destAirport = airportService.findById(flight.getDestAirportId());		
 		
 		if (airline != null && airplane != null && orgAirport != null && destAirport != null) {
-			Flight flightEntity = new Flight(flight.getFlightnr(), flight.getDepartureDate(), 
-					flight.getDepartureTime(), flight.getArrivalDate(), flight.getArrivalTime(),
-					airline, orgAirport, destAirport, airplane);
-			airplane.addFlight(flightEntity);
+			Flight exist = flightDao.findOne(flight.getId());
+			if (exist == null) {
+				Flight flightEntity = new Flight(flight.getFlightnr(), flight.getDepartureDate(), 
+						flight.getDepartureTime(), flight.getArrivalDate(), flight.getArrivalTime(),
+						airline, orgAirport, destAirport, airplane);
+				airplane.addFlight(flightEntity);
+			} else {
+				exist.setArrivalDate(flight.getArrivalDate());
+				exist.setArrivalTime(flight.getArrivalTime());
+				exist.setDepartureDate(flight.getDepartureDate());
+				exist.setDepartureTime(flight.getDepartureTime());
+				exist.setFlightnr(flight.getFlightnr());	
+				if (airplane != null) {
+					exist.setAirplane(airplane);
+				}
+				if (orgAirport != null) {
+					exist.setOrigin(orgAirport);
+				}
+				if (destAirport != null) {
+					exist.setDestination(destAirport);
+				}
+			}
+
 			return airlineDao.update(airline);
 		}
 		
