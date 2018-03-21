@@ -99,10 +99,11 @@ public class AirlineServiceRest {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Create a flight", notes = "Create a flight")
-	public void createFlight(
+	public Response createFlight(
 			@ApiParam(value = "Airline id", required = true) @PathParam("airlineId") Long airlineId, 			
 			@ApiParam(value = "Flight Information", required = true) FlightDto flight) {
-		airlineService.createFlight(airlineId, flight);
+		Airline airline = airlineService.createFlight(airlineId, flight);
+		return Response.ok().entity(airline != null? airline.getFlights() : null).build();		
 	}
 	
 	@Path("/{airlineId}/flight")
@@ -113,6 +114,17 @@ public class AirlineServiceRest {
 			@ApiParam(value = "Airline id", required = true) @PathParam("airlineId") Long airlineId, 			
 			@ApiParam(value = "Flight Information", required = true) FlightDto flight) {
 		Airline airline = airlineService.updateFlight(airlineId, flight);
-		return Response.ok().entity(airline.getFlights()).build();
+		return Response.ok().entity(airline != null? airline.getFlights() : null).build();
 	}	
+	
+	@Path("/{airlineId}/flight")
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Delete a flight", notes = "Delete a flight")
+	public Response deleteFlight(
+			@ApiParam(value = "Airline id", required = true) @PathParam("airlineId") Long airlineId, 			
+			@ApiParam(value = "Flight id", required = true)  @QueryParam("flightId") Long flightId) {
+		Airline airline = airlineService.deleteFlight(airlineId, flightId);
+		return Response.ok().entity(airline != null? airline.getFlights() : null).build();
+	}		
 }
