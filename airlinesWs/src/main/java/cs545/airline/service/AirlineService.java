@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import cs545.airline.dao.AirlineDao;
+import cs545.airline.dao.FlightDao;
 import cs545.airline.model.Airline;
 import cs545.airline.model.Airplane;
 import cs545.airline.model.Airport;
@@ -22,6 +23,9 @@ public class AirlineService {
 	// These services should be evaluated to reconsider which methods should be
 	// public
 
+	@Inject
+	private FlightDao flightDao;
+	
 	@Inject
 	private AirlineDao airlineDao;
 	
