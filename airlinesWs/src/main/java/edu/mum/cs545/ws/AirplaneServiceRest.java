@@ -67,6 +67,16 @@ public class AirplaneServiceRest {
 		}
 	}
 	
+	@Path("/{airplaneId}")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get an airplane by id", notes = "v")
+	public Response getById(
+			@ApiParam(value = "Airplane id to find", required = true) @PathParam("airplaneId") Long airplaneId) {
+		Airplane airplane = airplaneService.findById(airplaneId);
+		return Response.ok().entity(airplane).build();
+	}
+	
 	@Path("/findByModel")
 	@GET
 	@ApiOperation(value = "Find airplane by model", notes = "Find airplane by model")
