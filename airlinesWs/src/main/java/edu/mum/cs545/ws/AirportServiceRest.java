@@ -34,7 +34,7 @@ public class AirportServiceRest {
 	@Path("/")
 	@GET
 	@ApiOperation(value = "Get all airports", notes = "Get all airports")
-	public List<Airport> getAllAirlines() {
+	public List<Airport> getAllAirports() {
 		return airportService.findAll();
 	}
 
@@ -50,7 +50,7 @@ public class AirportServiceRest {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Update an airport", notes = "Update an airport")
-	public Response editAirport(@ApiParam(value = "An airline object", required = true) Airport airport) {
+	public Response editAirport(@ApiParam(value = "An airport object", required = true) Airport airport) {
 		Airport update = airportService.update(airport);
 		return Response.ok().entity(update).build();
 	}
@@ -59,7 +59,7 @@ public class AirportServiceRest {
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Delete an airport", notes = "Delete an airport")
-	public void deleteAirline(
+	public void deleteAirport(
 			@ApiParam(value = "Airport id to delete", required = true) @PathParam("airportId") Long airportId) {
 		Airport airport = airportService.findById(airportId);
 		if (airport != null) {

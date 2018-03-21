@@ -37,6 +37,10 @@ public class AirplaneService {
 	public Airplane find(Airplane airplane) {
 		return airplaneDao.findOne(airplane.getId());
 	}
+	
+	public Airplane findById(Long id) {
+		return airplaneDao.findOne(id);
+	}	
 
 	public Airplane findBySrlnr(String serialno) {
 		return airplaneDao.findOneBySerialnr(serialno);
