@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Main page</title>
+</h:head>
+<h:body>
+	<ui:composition>
+		<h:form>
+			<h:panelGroup>
+				<p:menu toggleable="true">
+					<p:submenu label="Flight">
+						<p:menuitem value="View flights" update=":main-container" actionListener="#{customTemplateController.toViewFlight}" ajax="true"
+							icon="fa fa-plane">
+						</p:menuitem>
+					</p:submenu>
+					<p:submenu label="Airline">
+						<p:menuitem value="List" ajax="true" update=":main-container" actionListener="#{customTemplateController.toAirlinesView}"
+							icon="fa fa-fw fa-list-ul">
+						</p:menuitem>
+						<p:menuitem value="New" ajax="true" update=":main-container" actionListener="#{customTemplateController.toAddAirline}"
+							icon="fa fa-fw fa-plus" />
+					</p:submenu>
+				</p:menu>
+			</h:panelGroup>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

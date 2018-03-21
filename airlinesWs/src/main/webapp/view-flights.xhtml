@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Main page</title>
+</h:head>
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:dataTable id="flightTable" var="flight"
+				value="#{flightBean.flights}" widgetVar="flightTable"
+				emptyMessage="No flight was found" sortMode="multiple"
+				filteredValue="#{flightBean.filteredFlights}">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<p:commandButton value="Clear all filters"
+							icon="fa fa-fw fa-eraser" update="@form"
+							onclick="PF('departDate').setDate(null); PF('departTime').setDate(null); PF('arriveTime').setDate(null); PF('arriveDate').setDate(null);PF('flightTable').clearFilters();" />
+						<h:outputText value="Search all fields:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('flightTable').filter()" style="width:150px"
+							placeholder="Enter keyword" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column filterBy="#{flight.flightnr}" sortBy="#{flight.flightnr}"
+					headerText="Flight number" filterMatchMode="contains">
+					<h:outputText value="#{flight.flightnr}" />
+				</p:column>
+
+				<p:column filterBy="#{flight.departureDate}"
+					sortBy="#{flight.departureDate}" headerText="Departure date"
+					filterFunction="#{flightBean.filterByDate}">
+					<f:facet name="filter">
+						<p:calendar id="departureDateFilter" pattern="MM/dd/yyyy"
+							widgetVar="departDate">
+							<p:ajax event="dateSelect"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+							<p:ajax event="change" execute="@this"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{flight.departureDate}"
+						converter="defaultDateConverter">
+					</h:outputText>
+				</p:column>
+
+				<p:column filterBy="#{flight.departureTime}"
+					sortBy="#{flight.departureTime}" headerText="Departure time"
+					filterFunction="#{flightBean.filterByTime}">
+					<f:facet name="filter">
+						<p:calendar id="departureTimeFilter" pattern="hh:mm a"
+							timeOnly="true" widgetVar="departTime">
+							<p:ajax event="dateSelect"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+							<p:ajax event="mouseout" execute="@this"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{flight.departureTime}" />
+				</p:column>
+
+				<p:column headerText="Arrival Date" filterBy="#{flight.arrivalDate}"
+					sortBy="#{flight.arrivalDate}"
+					filterFunction="#{flightBean.filterByDate}">
+					<f:facet name="filter">
+						<p:calendar id="arrivalDateFilter" pattern="MM/dd/yyyy"
+							widgetVar="arriveDate">
+							<p:ajax event="dateSelect"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+							<p:ajax event="change" execute="@this"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{flight.arrivalDate}" />
+				</p:column>
+
+				<p:column headerText="Arrival Time" filterBy="#{flight.arrivalTime}"
+					sortBy="#{flight.arrivalTime}"
+					filterFunction="#{flightBean.filterByTime}">
+					<f:facet name="filter">
+						<p:calendar id="arrivalTimeFilter" pattern="hh:mm a"
+							timeOnly="true" widgetVar="arriveTime">
+							<p:ajax event="dateSelect"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+							<p:ajax event="mouseout" execute="@this"
+								oncomplete="PF('flightTable').filter()" update="flightTable" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{flight.arrivalTime}" />
+				</p:column>
+
+				<p:column filterBy="#{flight.airline.name}"
+					sortBy="#{flight.airline.name}" headerText="Airline"
+					filterMatchMode="contains">
+					<h:outputText value="#{flight.airline.name}" />
+				</p:column>
+
+				<p:column
+					filterBy="#{flight.origin.name} #{flight.origin.airportcode}"
+					sortBy="#{flight.origin.name}" headerText="Origin Airport"
+					filterMatchMode="contains">
+					<h:outputText value="#{flight.origin}" converter="airportConverter" />
+				</p:column>
+
+				<p:column
+					filterBy="#{flight.destination.name} #{flight.destination.airportcode}"
+					sortBy="#{flight.destination.name}"
+					headerText="Destination Airport" filterMatchMode="contains">
+					<h:outputText value="#{flight.destination}"
+						converter="airportConverter" />
+				</p:column>
+
+				<p:column headerText="Airplane model"
+					sortBy="#{flight.airplane.model}">
+					<h:outputText value="#{flight.airplane.model}" />
+				</p:column>
+
+				<p:column headerText="Airplane Capacity"
+					sortBy="#{flight.airplane.capacity}">
+					<h:outputText value="#{flight.airplane.capacity}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>
