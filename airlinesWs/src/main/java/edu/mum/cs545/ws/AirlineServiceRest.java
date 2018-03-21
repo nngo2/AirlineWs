@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import cs545.airline.model.Airline;
+import cs545.airline.model.FlightDto;
 import cs545.airline.service.AirlineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -93,4 +94,25 @@ public class AirlineServiceRest {
 			airlineService.delete(airline);
 		}
 	}
+	
+	@Path("/{airlineId}/flight")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Create a flight", notes = "Create a flight")
+	public void createFlight(
+			@ApiParam(value = "Airline id", required = true) @PathParam("airlineId") Long airlineId, 			
+			@ApiParam(value = "Flight Information", required = true) FlightDto flight) {
+		airlineService.createFlight(airlineId, flight);
+	}
+	
+	@Path("/{airlineId}/flight")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Edit a flight", notes = "Edit a flight")
+	public Response editFlight(
+			@ApiParam(value = "Airline id", required = true) @PathParam("airlineId") Long airlineId, 			
+			@ApiParam(value = "Flight Information", required = true) FlightDto flight) {
+		Airline airline = airlineService.updateFlight(airlineId, flight);
+		return Response.ok().entity(airline.getFlights()).build();
+	}	
 }

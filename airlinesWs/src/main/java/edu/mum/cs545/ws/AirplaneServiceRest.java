@@ -34,7 +34,7 @@ public class AirplaneServiceRest {
 	@Path("/")
 	@GET
 	@ApiOperation(value = "Get all airplane", notes = "Get all airplanes")
-	public List<Airplane> getAllAirplaness() {
+	public List<Airplane> getAllAirplanes() {
 		return airplaneService.findAll();
 	}
 

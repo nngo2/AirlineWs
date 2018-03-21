@@ -26,14 +26,14 @@ public class FlightService {
 	// public
 
 	// CREATE MUST BE DONE THROUGH RELATED OBJECT
-	// public void create(Flight flight) {
-	// flightDao.create(flight);
-	// }
+	//public void create(Flight flight) {
+	//	flightDao.create(flight);
+	//}
 
 	// DELETE MUST BE DONE THROUGH UPDATE ON RELATED OBJECT
-	// public void delete(Flight flight) {
-	// flightDao.delete(flight);
-	// }
+	//public void delete(Flight flight) {
+	//	flightDao.delete(flight);
+	//}
 
 	public Flight update(Flight flight) {
 		return flightDao.update(flight);
@@ -42,6 +42,10 @@ public class FlightService {
 	public Flight find(Flight flight) {
 		return flightDao.findOne(flight.getId());
 	}
+	
+	public Flight findById(Long id) {
+		return flightDao.findOne(id);
+	}	
 
 	public List<Flight> findByNumber(String flightnr) {
 		return flightDao.findByFlightnr(flightnr);
