@@ -16,8 +16,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.joda.time.DateTime;
-
 import cs545.airline.model.Flight;
 import cs545.airline.service.FlightService;
 
@@ -77,6 +75,7 @@ public class FlightServiceRest {
 	@ApiOperation(value = "Get flights by their origin", notes = "Get flights by their origin")
 	public Response findByOrigin(
 			@ApiParam(value = "An airport name", required = true) @QueryParam("name") String name) {
+		
 		List<Flight> flights = null;
 
 		try {
@@ -88,26 +87,38 @@ public class FlightServiceRest {
 		return Response.ok().entity(flights).build();
 	}
 
-	//
-	// @Path("/byDestination")
-	// @GET
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "Get all flights by destination", notes = "Get all
-	// flights by destination")
-	// public List<Flight> findByDestination(@ApiParam(value = "An airport object",
-	// required = true) Airport airport) {
-	// return flightService.findByDestination(airport);
-	// }
-	//
-	// @Path("/byAirplane")
-	// @GET
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "Get all flights by airplane", notes = "Get all flights
-	// by airplane")
-	// public List<Flight> findByAirplane(@ApiParam(value = "An airplane object",
-	// required = true) Airplane airplane) {
-	// return flightService.findByAirplane(airplane);
-	// }
+	
+	@Path("/byDestination")
+	@GET
+	@ApiOperation(value = "Get all flights by destination", notes = "Get all flights by destination")
+	public Response findByDestination(@ApiParam(value = "An airport name", required = true) @QueryParam("name") String name) {
+		
+		List<Flight> flights = null;
+
+		try {
+			flights = flightService.findByDestinationName(name);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return Response.ok().entity(flights).build();
+	}
+	
+	@Path("/byAirplane")
+	@GET
+	@ApiOperation(value = "Get all flights by airplane", notes = "Get all flights by airplane")
+	public Response findByAirplane(
+			@ApiParam(value = "An airplane serial nimber", required = true) @QueryParam("serialNo") String serialNo) {
+		List<Flight> flights = null;
+
+		try {
+			flights = flightService.findByAirlineSerialNo(serialNo);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return Response.ok().entity(flights).build();
+	}
 	
 	@Path("/byArrival")
 	@GET
@@ -132,7 +143,7 @@ public class FlightServiceRest {
 	
 	@Path("/byArrivalBetween")
 	@GET
-	@ApiOperation(value = "byArrivalBetween", notes = "Get all flights by arrival betweet two dates")
+	@ApiOperation(value = "Get all flights by arrival betweet two dates", notes = "Get all flights by arrival betweet two dates")
 	public Response findByArrivalBetween(
 			@ApiParam(value = "From date", required = true) @QueryParam("from") String datetimeFrom,
 			@ApiParam(value = "To date", required = true) @QueryParam("to") String datetimeTo) {
@@ -152,7 +163,7 @@ public class FlightServiceRest {
 	
 	@Path("/byDeparture")
 	@GET
-	@ApiOperation(value = "byDeparture", notes = "Get all flights by departure in a specific date")
+	@ApiOperation(value = "Get all flights by departure in a specific date", notes = "Get all flights by departure in a specific date")
 	public Response findByDeparture(
 			@ApiParam(value = "Give a date ", required = true) @QueryParam("date") String date,
 			@ApiParam(value = "Give a time ", required = true) @QueryParam("time") String time) {
@@ -172,7 +183,7 @@ public class FlightServiceRest {
 
 	@Path("/byDepartureBetween")
 	@GET
-	@ApiOperation(value = "byDepartureBetween", notes = "Get all flights by departure between two dates")
+	@ApiOperation(value = "Get all flights by departure between two dates", notes = "Get all flights by departure between two dates")
 	public Response findByDepartureBetween(
 			@ApiParam(value = "From date", required = true) @QueryParam("from") String datetimeFrom,
 			@ApiParam(value = "To date", required = true) @QueryParam("to") String datetimeTo) {

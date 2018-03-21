@@ -77,6 +77,14 @@ public class FlightDao {
 		query.setParameter("airportId", airportId);
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Flight> findByDestinationName(String name) {
+		Query query = entityManager.createQuery("select f from Flight f join f.destination d where d.name=:name",
+				Flight.class);
+		query.setParameter("name", name);
+		return query.getResultList();
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<Flight> findByAirplane(long airplaneId) {
@@ -86,6 +94,15 @@ public class FlightDao {
 
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Flight> findByAirplaneSerialNo(String serialNo) {
+		Query query = entityManager.createQuery("select f from Flight f join f.airplane a where a.serialnr=:serialNo",
+				Flight.class);
+		query.setParameter("serialNo", serialNo);
+
+		return query.getResultList();
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<Flight> findByAirline(long airlineId) {

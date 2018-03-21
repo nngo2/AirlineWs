@@ -70,10 +70,18 @@ public class FlightService {
 	public List<Flight> findByDestination(Airport airport) {
 		return flightDao.findByDestination(airport.getId());
 	}
+	
+	public List<Flight> findByDestinationName(String name) {
+		return flightDao.findByDestinationName(name);
+	}	
 
 	public List<Flight> findByAirplane(Airplane airplane) {
 		return flightDao.findByAirplane(airplane.getId());
 	}
+	
+	public List<Flight> findByAirlineSerialNo(String airplaneSerialNo) {
+		return flightDao.findByAirplaneSerialNo(airplaneSerialNo);
+	}		
 	
 	public List<Flight> findByArrival(Date date) {
 		return flightDao.findByArrival(date, date);
