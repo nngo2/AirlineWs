@@ -41,16 +41,6 @@ public class FlightServiceRest {
 		return flightService.findAll();
 	}
 
-	// @Path("/")
-	// @PUT
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// @ApiOperation(value = "Update a flight", notes = "Update flights")
-	// public Response updateFlight(@ApiParam(value = "A Flight object", required =
-	// true) Flight flight) {
-	// Flight update = flightService.update(flight);
-	// return Response.ok().entity(update).build();
-	// }
-
 	@Path("/find/{flightId}")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -61,7 +51,7 @@ public class FlightServiceRest {
 		return Response.ok().entity(flight).build();
 	}
 
-	@Path("/find")
+	@Path("/findByNumber")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get all flights by number", notes = "Get all flights by number")
@@ -86,16 +76,16 @@ public class FlightServiceRest {
 	public Response findByOrigin(
 			@ApiParam(value = "An airport name", required = true) @QueryParam("name") String name) {
 		List<Flight> flights = null;
-		
+
 		try {
 			flights = flightService.findByOriginName(name);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
-		return Response.ok().entity(flights).build();	
+
+		return Response.ok().entity(flights).build();
 	}
-	
+
 	//
 	// @Path("/byDestination")
 	// @GET
