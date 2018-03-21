@@ -70,7 +70,7 @@ public class AirplaneServiceRest {
 	@Path("/{airplaneId}")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get an airplane by id", notes = "v")
+	@ApiOperation(value = "Get an airplane by id", notes = "Get an airplane by id")
 	public Response getById(
 			@ApiParam(value = "Airplane id to find", required = true) @PathParam("airplaneId") Long airplaneId) {
 		Airplane airplane = airplaneService.findById(airplaneId);
