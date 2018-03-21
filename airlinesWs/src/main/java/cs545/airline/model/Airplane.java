@@ -15,6 +15,8 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"serialnr"}))
 public class Airplane {
@@ -51,6 +53,7 @@ public class Airplane {
 		this.id = id;
 	}
 
+	@ApiModelProperty(value = "Airplane serial no is required", example = "777200", required = true)
 	public String getSerialnr() {
 		return serialnr;
 	}
@@ -59,6 +62,7 @@ public class Airplane {
 		this.serialnr = serialnr;
 	}
 
+	@ApiModelProperty(value = "Airplane is required", example = "777", required = true)
 	public String getModel() {
 		return model;
 	}
