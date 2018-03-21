@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<title>View airlines</title>
+</h:head>
+<h:body>
+	<ui:composition>
+		<h:form>
+			<h:panelGroup layout="block">
+				<p:dataTable id="airLineTable" var="airline"
+					value="#{airlineBean.airlines}" widgetVar="airLineTable"
+					emptyMessage="No airline was found" sortMode="multiple">
+
+					<p:column sortBy="#{airline.name}" headerText="airline name">
+						<h:outputText value="#{airline.name}" />
+					</p:column>
+
+					<p:column headerText="Flights" colspan="4">
+						<p:dataTable value="#{airline.flights}" var ="flight" styleClass="inner-flight-table">
+							<p:column>
+								<h:outputText value="#{flight.flightnr}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{flight.origin.name} to #{flight.destination.name}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{flight.departureDate} #{flight.departureTime}" />
+							</p:column>
+							<p:column>
+								<p:commandButton icon="fa fa-fw fa-trash" update="@form" actionListener="#{airlineBean.removeAirlineFlight(airline.id, flight.id)}">
+									<p:confirm header="Confirmation"
+										message="Are you sure to delete this entry?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+						<p:selectOneMenu value="#{airlineBean.selectedFlightId}">
+							<f:selectItem itemLabel="Add new flight" itemValue="#{null}" />
+							<c:forEach var="fl" items="#{airlineBean.avaiableFights}">
+								<f:selectItem itemValue="#{fl.id}" itemLabel="#{fl.flightnr} : #{fl.origin.airportcode} to #{fl.destination.airportcode} #{fl.departureDate} #{fl.departureTime}">
+								</f:selectItem>
+							</c:forEach>
+							<p:ajax event="itemSelect" update="@form" listener="#{airlineBean.addFlight(airline.id)}"></p:ajax>
+						</p:selectOneMenu>
+					</p:column>
+						
+					<p:column>
+						<p:commandButton icon="fa fa-fw fa-trash" value="Remove"
+							update="@form"
+							actionListener="#{airlineBean.removeAirline(airline.id)}">
+							<p:confirm header="Confirmation"
+								message="Are you sure to delete this entry?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:panelGroup>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

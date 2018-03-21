@@ -1,0 +1,6 @@
+.topAligned {
+    vertical-align: top;
+}
+.inner-flight-table thead {
+    display:none;
+}
