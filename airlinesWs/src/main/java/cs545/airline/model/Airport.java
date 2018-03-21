@@ -12,9 +12,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import io.swagger.annotations.ApiModel;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"airportcode"}))
+@ApiModel(description = "An airport object")
+@XmlRootElement
 public class Airport {
 	@Id
 	@GeneratedValue
@@ -23,9 +30,13 @@ public class Airport {
 	private String name;
 	private String city;
 	private String country;
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "destination", cascade= CascadeType.ALL)
 	@OrderBy("arrivalDate, arrivalTime")
 	private List<Flight> arrivals = new ArrayList<>();
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "origin", cascade= CascadeType.ALL)
 	@OrderBy("departureDate, departureTime")
 	private List<Flight> departures = new ArrayList<>();

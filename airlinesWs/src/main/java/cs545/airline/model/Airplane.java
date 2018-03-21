@@ -12,9 +12,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"serialnr"}))
+@XmlRootElement
 public class Airplane {
 
 	@Id
@@ -24,6 +30,8 @@ public class Airplane {
 	private String serialnr;
 	private String model;
 	private int capacity;
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy="airplane", cascade= CascadeType.ALL)
 	@OrderBy("departureDate, departureTime")
 	private List<Flight> flights = new ArrayList<>();
@@ -47,6 +55,7 @@ public class Airplane {
 		this.id = id;
 	}
 
+	@ApiModelProperty(value = "Airplane serial no is required", example = "777200", required = true)
 	public String getSerialnr() {
 		return serialnr;
 	}
@@ -55,6 +64,7 @@ public class Airplane {
 		this.serialnr = serialnr;
 	}
 
+	@ApiModelProperty(value = "Airplane is required", example = "777", required = true)
 	public String getModel() {
 		return model;
 	}
