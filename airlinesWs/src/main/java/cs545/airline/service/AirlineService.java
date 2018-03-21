@@ -31,7 +31,10 @@ public class AirlineService {
 	@Inject 
 	private AirportService airportService;	
 	
-	public void createFlight(Long airlineId, FlightDto flight) {
+	@Inject 
+	private FlightService flightService;		
+	
+	public Airline createFlight(Long airlineId, FlightDto flight) {
 		Airline airline = airlineDao.findOne(airlineId);		
 		Airplane airplane = airplaneService.findById(flight.getAirplaneId());
 		Airport orgAirport = airportService.findById(flight.getOrgAirportId());
@@ -43,7 +46,10 @@ public class AirlineService {
 					airline, orgAirport, destAirport, airplane);
 			airplane.addFlight(flightEntity);
 			airlineDao.create(airline);
+			airline = airlineDao.findOne(airlineId);
 		}
+		
+		return airline;	
 	}
 	
 	public Airline updateFlight(Long airlineId, FlightDto flight) {
@@ -62,6 +68,18 @@ public class AirlineService {
 		
 		return airline;
 	}
+	
+	public Airline deleteFlight(Long airlineId, Long flightId) {
+		Airline airline = airlineDao.findOne(airlineId);		
+		
+		if (airline != null  && flightId != null) {
+			Flight flightEntity = flightService.findById(flightId);
+			airline.removeFlight(flightEntity);
+			return airlineDao.update(airline);
+		}
+		
+		return airline;
+	}	
 
 	public void create(Airline airline) {
 		airlineDao.create(airline);
