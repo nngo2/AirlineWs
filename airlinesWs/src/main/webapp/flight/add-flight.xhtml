@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<title>Add page</title>
+</h:head>
+<h:body>
+	<ui:composition>
+		<h:form id="adFLightForm">
+			<h:panelGrid columns="2" columnClasses="topAligned">
+				<p:outputLabel for="number" value="Flight number:" />
+				<p:inputText id="number" value="#{flightBean.newFlight.flightnr}" />
+
+				<p:outputLabel for="departureDate" value="Departure date:" />
+				<p:calendar id="departureDate" value="#{flightBean.newFlight.departureDate}" 
+					pattern="MM/dd/yyyy">
+				</p:calendar>
+				
+				<p:outputLabel for="departureTime" value="Departure time" />
+				<p:calendar id="departureTime" pattern="hh:mm a" timeOnly="true"
+					widgetVar="departTime"  value="#{flightBean.newFlight.departureTime}" >
+				</p:calendar>
+
+
+				<p:outputLabel for="AirrivalDate" value="Arrival date:" />
+				<p:calendar id="AirrivalDate" value="#{flightBean.newFlight.arrivalDate}" 
+					pattern="MM/dd/yyyy">
+				</p:calendar>
+				
+				<p:outputLabel for="arrivalTime" value="Arrival time" />
+				<p:calendar id="arrivalTime" pattern="hh:mm a" timeOnly="true"
+					widgetVar="departTime" value="#{flightBean.newFlight.arrivalTime}" >
+				</p:calendar>
+				
+				<p:outputLabel for="airLine" value="Airline" />
+				<p:selectOneMenu id="airLine"
+					value="#{flightBean.newFlight.airline.id}" filter="true" 
+					filterMatchMode="contains">
+					<c:forEach  var="air" items="#{airlineBean.airlines}">
+						<f:selectItem itemLabel="#{air.name}" itemValue="#{air.id}"></f:selectItem>
+					</c:forEach >
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="originAirport" value="Original Airport" />
+				<p:selectOneMenu id="originAirport"
+					value="#{flightBean.newFlight.origin.id}" filter="true" 
+					filterMatchMode="contains">
+					<c:forEach  var="airport" items="#{flightBean.airports}">
+						<f:selectItem itemLabel="#{airport.name} - #{airport.airportcode}" itemValue="#{airport.id}"></f:selectItem>
+					</c:forEach >
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="desAirport" value="Destination Airport" />
+				<p:selectOneMenu id="desAirport"
+					value="#{flightBean.newFlight.destination.id}" filter="true" 
+					filterMatchMode="contains">
+					<c:forEach  var="airport" items="#{flightBean.airports}">
+						<f:selectItem itemLabel="#{airport.name} - #{airport.airportcode}" itemValue="#{airport.id}"></f:selectItem>
+					</c:forEach >
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<p:commandButton actionListener="#{flightBean.addFlight}"
+				update=":main-container" process="@form" value="Add Flight" />
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

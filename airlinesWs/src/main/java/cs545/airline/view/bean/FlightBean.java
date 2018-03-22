@@ -15,7 +15,10 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.time.DateUtils;
 
+import cs545.airline.model.Airline;
+import cs545.airline.model.Airport;
 import cs545.airline.model.Flight;
+import cs545.airline.service.AirportService;
 import cs545.airline.service.FlightService;
 @Named(value="flightBean")
 @ViewScoped
@@ -27,15 +30,25 @@ public class FlightBean implements Serializable {
 	private static DateFormat tf = DateFormat.getTimeInstance(DateFormat.SHORT,
 			Locale.US);
 
+	private Flight newFlight;
 	private List<Flight> flights;
 	private List<Flight> filteredFlights;
 	@Inject
 	private FlightService flightService;
+	@Inject
+	private AirportService airportService;
+	
 
 	@PostConstruct
 	public void init() {
 		flights = flightService.findAll();
+		newFlight = initNewFlight();
 	}
+	
+	public List<Airport> getAirports(){
+		return airportService.findAll();
+	}
+
 	
 	public boolean filterByDate(Object value, Object filter, Locale locale) throws ParseException {
 		Date dateToFilered = null;
@@ -63,6 +76,10 @@ public class FlightBean implements Serializable {
 		return DateUtils.truncatedEquals(dateToFilered, (Date) filter, Calendar.MINUTE);
 	}
 	
+	public void addFlight() {
+		this.newFlight = initNewFlight();
+	}
+	
 
 	public List<Flight> getFlights() {
 		return flights;
@@ -80,4 +97,19 @@ public class FlightBean implements Serializable {
 		this.filteredFlights = filteredFlights;
 	}
 
+	public Flight getNewFlight() {
+		return newFlight;
+	}
+
+	public void setNewFlight(Flight newFlight) {
+		this.newFlight = newFlight;
+	}
+	
+	private Flight initNewFlight() {
+		Flight newFlight = new Flight();
+		newFlight.setAirline(new Airline());
+		newFlight.setOrigin(new Airport());
+		newFlight.setDestination(new Airport());
+		return newFlight;
+	}
 }
