@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Airplanes</title>
+</h:head>
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:dataTable id="planes" var="plane"
+				value="#{airplaneBean.planes}" widgetVar="planeTable"
+				emptyMessage="No planes was found" sortMode="multiple"
+				filteredValue="#{airplaneBean.filterredPlanes}">
+				
+				<f:facet name="header">
+					<p:outputPanel>
+						<p:commandButton value="Clear all filters"
+							icon="fa fa-fw fa-eraser" update="@form"
+							onclick="PF('planeTable').clearFilters();" />
+						<h:outputText value="Search all fields:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('planeTable').filter()" style="width:150px"
+							placeholder="Enter keyword" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column filterBy="#{plane.serialnr}" sortBy="#{plane.serialnr}"
+					headerText="Serial number" filterMatchMode="contains">
+					<h:outputText value="#{plane.serialnr}" />
+				</p:column>
+				
+				<p:column filterBy="#{plane.model}" sortBy="#{plane.model}"
+					headerText="Model" filterMatchMode="contains">
+					<h:outputText value="#{plane.model}" />
+				</p:column>
+	
+				<p:column filterBy="#{plane.capacity}" sortBy="#{plane.capacity}"
+					headerText="Capacity" filterMatchMode="contains">
+					<h:outputText value="#{plane.capacity}" />
+				</p:column>				
+			</p:dataTable>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

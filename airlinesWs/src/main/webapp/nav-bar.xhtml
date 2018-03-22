@@ -20,6 +20,12 @@
 							icon="fa fa-plane">
 						</p:menuitem>
 					</p:submenu>
+					<p:submenu label="Planes">
+						<p:menuitem value="View planes" update=":main-container" actionListener="#{customTemplateController.toAirplanesView}" ajax="true"
+							icon="fa fa-plane"/>
+						<p:menuitem value="New" update=":main-container" actionListener="#{customTemplateController.toAddAirplaneView}" ajax="true"
+							icon="fa fa-fw fa-plus"/>						
+					</p:submenu>					
 					<p:submenu label="Airline">
 						<p:menuitem value="List" ajax="true" update=":main-container" actionListener="#{customTemplateController.toAirlinesView}"
 							icon="fa fa-fw fa-list-ul">

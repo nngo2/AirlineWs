@@ -17,6 +17,14 @@ public class CustomTemplateController implements Serializable {
 		toViewFlight();
 	}
 
+	public void toAirplanesView() {
+		mainContent = MainView.VIEW_AIRPLANES.getName();
+	}
+	
+	public void toAddAirplaneView() {
+		mainContent = MainView.VIEW_ADD_AIRPLANE.getName();
+	}
+	
 	public void toViewFlight() {
 		mainContent = MainView.VIEW_FLIGHT.getName();
 	}
@@ -34,6 +42,8 @@ public class CustomTemplateController implements Serializable {
 	}
 
 	static enum MainView {
+		VIEW_AIRPLANES("plane/view-planes.xhtml"), 
+		VIEW_ADD_AIRPLANE("plane/create-plane.xhtml"), 		
 		VIEW_FLIGHT("flight/view-flights.xhtml"), 
 		VIEW_AIRLINES("airline/view-airlines.xhtml"),
 		ADD_AIRLINE("airline/add-airline.xhtml");
