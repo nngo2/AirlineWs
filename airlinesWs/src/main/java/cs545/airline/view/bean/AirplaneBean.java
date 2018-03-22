@@ -64,10 +64,6 @@ public class AirplaneBean implements Serializable{
 		this.newAirplane = newAirplane;
 	}
 
-	public CustomTemplateController getTemplateController() {
-		return templateController;
-	}
-
 	public void setTemplateController(CustomTemplateController templateController) {
 		this.templateController = templateController;
 	}

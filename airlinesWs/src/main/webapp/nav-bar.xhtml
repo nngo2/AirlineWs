@@ -19,6 +19,8 @@
 						<p:menuitem value="View flights" update=":main-container" actionListener="#{customTemplateController.toViewFlight}" ajax="true"
 							icon="fa fa-plane">
 						</p:menuitem>
+						<p:menuitem value="New" ajax="true" update=":main-container" actionListener="#{customTemplateController.toAddFlight}"
+							icon="fa fa-fw fa-plus" />
 					</p:submenu>
 					<p:submenu label="Planes">
 						<p:menuitem value="View planes" update=":main-container" actionListener="#{customTemplateController.toAirplanesView}" ajax="true"

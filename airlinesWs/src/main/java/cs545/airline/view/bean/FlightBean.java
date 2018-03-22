@@ -31,6 +31,7 @@ public class FlightBean implements Serializable {
 			Locale.US);
 
 	private Flight newFlight;
+	private FlightTime flightTime;
 	private List<Flight> flights;
 	private List<Flight> filteredFlights;
 	@Inject
@@ -42,7 +43,7 @@ public class FlightBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		flights = flightService.findAll();
-		newFlight = initNewFlight();
+		initNewFlight();
 	}
 	
 	public List<Airport> getAirports(){
@@ -77,7 +78,24 @@ public class FlightBean implements Serializable {
 	}
 	
 	public void addFlight() {
-		this.newFlight = initNewFlight();
+		String arrivalDate = df.format(flightTime.getArrivalDate());
+		String arrivalTime = tf.format(flightTime.getArrivalTime());
+		String departureDate = df.format(flightTime.getDepartureDate());
+		String departureTime = tf.format(flightTime.getDepartureTime());
+		newFlight.setDepartureDate(departureDate);
+		newFlight.setDepartureTime(departureTime);
+		newFlight.setArrivalDate(arrivalDate);
+		newFlight.setArrivalTime(arrivalTime);
+		Airport des = airportService.findById(newFlight.getDestination().getId());
+		Airport org = airportService.findById(newFlight.getOrigin().getId());
+		newFlight.setOrigin(null);
+		newFlight.setDestination(null);
+		flightService.create(newFlight);
+		des.addArrival(newFlight);
+		org.addDeparture(newFlight);
+		airportService.update(des);
+		airportService.update(org);
+		initNewFlight();
 	}
 	
 
@@ -96,6 +114,8 @@ public class FlightBean implements Serializable {
 	public void setFilteredFlights(List<Flight> filteredFlights) {
 		this.filteredFlights = filteredFlights;
 	}
+	
+	
 
 	public Flight getNewFlight() {
 		return newFlight;
@@ -105,11 +125,21 @@ public class FlightBean implements Serializable {
 		this.newFlight = newFlight;
 	}
 	
-	private Flight initNewFlight() {
+	
+	public FlightTime getFlightTime() {
+		return flightTime;
+	}
+
+	public void setFlightTime(FlightTime flightTime) {
+		this.flightTime = flightTime;
+	}
+	
+
+	private void initNewFlight() {
 		Flight newFlight = new Flight();
-		newFlight.setAirline(new Airline());
 		newFlight.setOrigin(new Airport());
 		newFlight.setDestination(new Airport());
-		return newFlight;
+		this.newFlight = newFlight;
+		this.flightTime = new FlightTime();
 	}
 }

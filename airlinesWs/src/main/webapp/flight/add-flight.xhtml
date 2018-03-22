@@ -19,34 +19,25 @@
 				<p:inputText id="number" value="#{flightBean.newFlight.flightnr}" />
 
 				<p:outputLabel for="departureDate" value="Departure date:" />
-				<p:calendar id="departureDate" value="#{flightBean.newFlight.departureDate}" 
+				<p:calendar id="departureDate" value="#{flightBean.flightTime.departureDate}" 
 					pattern="MM/dd/yyyy">
 				</p:calendar>
 				
 				<p:outputLabel for="departureTime" value="Departure time" />
 				<p:calendar id="departureTime" pattern="hh:mm a" timeOnly="true"
-					widgetVar="departTime"  value="#{flightBean.newFlight.departureTime}" >
+					widgetVar="departTime"  value="#{flightBean.flightTime.departureTime}" >
 				</p:calendar>
 
 
 				<p:outputLabel for="AirrivalDate" value="Arrival date:" />
-				<p:calendar id="AirrivalDate" value="#{flightBean.newFlight.arrivalDate}" 
+				<p:calendar id="AirrivalDate" value="#{flightBean.flightTime.arrivalDate}" 
 					pattern="MM/dd/yyyy">
 				</p:calendar>
 				
 				<p:outputLabel for="arrivalTime" value="Arrival time" />
 				<p:calendar id="arrivalTime" pattern="hh:mm a" timeOnly="true"
-					widgetVar="departTime" value="#{flightBean.newFlight.arrivalTime}" >
+					widgetVar="departTime" value="#{flightBean.flightTime.arrivalTime}" >
 				</p:calendar>
-				
-				<p:outputLabel for="airLine" value="Airline" />
-				<p:selectOneMenu id="airLine"
-					value="#{flightBean.newFlight.airline.id}" filter="true" 
-					filterMatchMode="contains">
-					<c:forEach  var="air" items="#{airlineBean.airlines}">
-						<f:selectItem itemLabel="#{air.name}" itemValue="#{air.id}"></f:selectItem>
-					</c:forEach >
-				</p:selectOneMenu>
 				
 				<p:outputLabel for="originAirport" value="Original Airport" />
 				<p:selectOneMenu id="originAirport"
@@ -66,8 +57,9 @@
 					</c:forEach >
 				</p:selectOneMenu>
 			</h:panelGrid>
-			<p:commandButton actionListener="#{flightBean.addFlight}"
-				update=":main-container" process="@form" value="Add Flight" />
+			<p:commandButton onclick="addFlight(); gotoViewFlight();" value="Add Flight" update=":main-container" process="@form"/>
+			<p:remoteCommand name="addFlight"  actionListener="#{flightBean.addFlight}"></p:remoteCommand>
+			<p:remoteCommand name="gotoViewFlight"  actionListener="#{customTemplateController.toViewFlight}"></p:remoteCommand>
 		</h:form>
 	</ui:composition>
 </h:body>

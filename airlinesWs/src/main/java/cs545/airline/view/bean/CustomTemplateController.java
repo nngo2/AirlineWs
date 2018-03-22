@@ -36,6 +36,10 @@ public class CustomTemplateController implements Serializable {
 	public void toAddAirline() {
 		mainContent = MainView.ADD_AIRLINE.getName();
 	}
+	
+	public void toAddFlight() {
+		mainContent = MainView.ADD_FLIGHT.getName();
+	}
 
 	public String getMainContent() {
 		return mainContent;
@@ -45,6 +49,7 @@ public class CustomTemplateController implements Serializable {
 		VIEW_AIRPLANES("plane/view-planes.xhtml"), 
 		VIEW_ADD_AIRPLANE("plane/create-plane.xhtml"), 		
 		VIEW_FLIGHT("flight/view-flights.xhtml"), 
+		ADD_FLIGHT("flight/add-flight.xhtml"), 
 		VIEW_AIRLINES("airline/view-airlines.xhtml"),
 		ADD_AIRLINE("airline/add-airline.xhtml");
 		private String name;
