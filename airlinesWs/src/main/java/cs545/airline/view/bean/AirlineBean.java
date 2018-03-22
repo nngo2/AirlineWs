@@ -73,10 +73,6 @@ public class AirlineBean implements Serializable {
 	public void removeAirline(Long id) {
 		Airline airline = airlineService.findById(id);
 		if(airline!= null) {
-			for(Flight f : airline.getFlights()) {
-				airline.removeFlight(f);
-			}
-			airlineService.update(airline);
 			airlineService.delete(airline);
 		}
 	}

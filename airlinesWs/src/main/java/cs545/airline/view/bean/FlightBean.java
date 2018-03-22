@@ -15,7 +15,6 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import cs545.airline.model.Airline;
 import cs545.airline.model.Airport;
 import cs545.airline.model.Flight;
 import cs545.airline.service.AirportService;

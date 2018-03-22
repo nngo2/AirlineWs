@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 
 import cs545.airline.model.Flight;
 import cs545.airline.service.FlightService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
