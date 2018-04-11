@@ -44,7 +44,6 @@ public class AirlineServiceRest {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get airline by id", notes = "Get airline by id")
-	@ApiResponses(value = { @ApiResponse(code = 404, message = "Airline not found") })
 	public Response getAirlineById(
 			@ApiParam(value = "Airline id to find", required = true) @PathParam("airlineId") Long airlineId) {
 		Airline ariline = airlineService.findById(airlineId);
